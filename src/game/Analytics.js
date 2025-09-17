@@ -29,7 +29,8 @@ export class Analytics {
                 ...data,
                 sessionId: this.sessionId
             },
-            timestamp: Date.now()
+            timestamp: Date.now(),
+            sessionId: this.sessionId
         };
         this.events.push(event);
         this.saveEvents();
