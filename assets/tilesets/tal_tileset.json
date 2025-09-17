@@ -1,0 +1,74 @@
+{
+  "tilesets": [
+    {
+      "name": "tal_tileset",
+      "tilewidth": 32,
+      "tileheight": 32,
+      "tilecount": 16,
+      "columns": 4,
+      "image": "tal_tileset.png",
+      "imagewidth": 128,
+      "imageheight": 128,
+      "tiles": [
+        {
+          "id": 0,
+          "properties": [
+            {"name": "type", "type": "string", "value": "floor"},
+            {"name": "walkable", "type": "bool", "value": true}
+          ]
+        },
+        {
+          "id": 1,
+          "properties": [
+            {"name": "type", "type": "string", "value": "wall"},
+            {"name": "walkable", "type": "bool", "value": false}
+          ]
+        },
+        {
+          "id": 2,
+          "properties": [
+            {"name": "type", "type": "string", "value": "corner"},
+            {"name": "walkable", "type": "bool", "value": false}
+          ]
+        },
+        {
+          "id": 3,
+          "properties": [
+            {"name": "type", "type": "string", "value": "doorway"},
+            {"name": "walkable", "type": "bool", "value": true}
+          ]
+        },
+        {
+          "id": 4,
+          "properties": [
+            {"name": "type", "type": "string", "value": "torch"},
+            {"name": "walkable", "type": "bool", "value": true},
+            {"name": "light_source", "type": "bool", "value": true}
+          ]
+        },
+        {
+          "id": 5,
+          "properties": [
+            {"name": "type", "type": "string", "value": "number_inset"},
+            {"name": "walkable", "type": "bool", "value": true}
+          ]
+        },
+        {
+          "id": 6,
+          "properties": [
+            {"name": "type", "type": "string", "value": "catapult"},
+            {"name": "walkable", "type": "bool", "value": false},
+            {"name": "interactive", "type": "bool", "value": true}
+          ]
+        },
+        {
+          "id": 7,
+          "properties": [
+            {"name": "type", "type": "string", "value": "bridge_segment"},
+            {"name": "walkable", "type": "bool", "value": true}
+          ]
+        }
+      ]
+    }
+  ]
+}

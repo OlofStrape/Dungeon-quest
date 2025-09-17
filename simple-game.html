@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dungeon of Numbers EDU – Åk4</title>
+    <style>
+        /* Art Bible Color Palette */
+        :root {
+            --deep-blue-gray: #2C3E50;
+            --cool-blue: #3F5B6E;
+            --moss-green: #7DAF66;
+            --warm-torch: #E8C170;
+            --magic-light: #C6E4F2;
+            --slate-dark: #22313A;
+            --pale-text: #DAE4EA;
+            --hp-red: #E76F51;
+            --xp-teal: #2A9D8F;
+        }
+
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, var(--deep-blue-gray) 0%, var(--cool-blue) 100%);
+            color: var(--pale-text);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            text-align: center;
+            color: var(--warm-torch);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            color: var(--magic-light);
+            border-bottom: 2px solid var(--warm-torch);
+            padding-bottom: 10px;
+        }
+
+        h3 {
+            color: var(--moss-green);
+        }
+
+        .dungeon-button {
+            background: linear-gradient(145deg, var(--cool-blue), var(--deep-blue-gray));
+            color: var(--pale-text);
+            padding: 15px 25px;
+            margin: 10px;
+            border: 2px solid var(--warm-torch);
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .dungeon-button:hover {
+            background: linear-gradient(145deg, var(--warm-torch), var(--moss-green));
+            color: var(--deep-blue-gray);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+
+        .room-button {
+            background: var(--slate-dark);
+            color: var(--pale-text);
+            padding: 12px 20px;
+            margin: 8px;
+            border: 1px solid var(--cool-blue);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .room-button:hover {
+            background: var(--cool-blue);
+            border-color: var(--warm-torch);
+            transform: translateX(5px);
+        }
+
+        .question {
+            font-size: 28px;
+            margin: 25px 0;
+            padding: 20px;
+            background: var(--slate-dark);
+            border: 2px solid var(--warm-torch);
+            border-radius: 10px;
+            text-align: center;
+            color: var(--magic-light);
+        }
+
+        .option {
+            background: var(--slate-dark);
+            color: var(--pale-text);
+            padding: 15px;
+            margin: 8px;
+            border: 1px solid var(--cool-blue);
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            background: var(--cool-blue);
+            border-color: var(--warm-torch);
+            transform: scale(1.02);
+        }
+
+        .hp-bar {
+            margin: 15px 0;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .hp-bar:first-of-type {
+            color: var(--hp-red);
+        }
+
+        .hp-bar:last-of-type {
+            color: var(--xp-teal);
+        }
+
+        .feedback {
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            border: 2px solid;
+        }
+
+        .feedback.correct {
+            background: linear-gradient(145deg, var(--moss-green), #5a8a4a);
+            color: white;
+            border-color: var(--moss-green);
+        }
+
+        .feedback.incorrect {
+            background: linear-gradient(145deg, var(--hp-red), #c0392b);
+            color: white;
+            border-color: var(--hp-red);
+        }
+
+        #content {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        input[type="text"] {
+            background: var(--slate-dark);
+            color: var(--pale-text);
+            border: 2px solid var(--cool-blue);
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 18px;
+            margin: 10px;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--warm-torch);
+            outline: none;
+        }
+
+        button {
+            background: var(--cool-blue);
+            color: var(--pale-text);
+            border: 1px solid var(--warm-torch);
+            border-radius: 6px;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.2s ease;
+        }
+
+        button:hover {
+            background: var(--warm-torch);
+            color: var(--deep-blue-gray);
+        }
+
+        .art-bible-info {
+            text-align: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--slate-dark);
+            border: 1px solid var(--warm-torch);
+            border-radius: 8px;
+            color: var(--magic-light);
+            font-style: italic;
+        }
+
+        .lanternbearer-info {
+            background: var(--slate-dark);
+            border: 2px solid var(--warm-torch);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .lanternbearer-info h3 {
+            color: var(--warm-torch);
+            margin-bottom: 10px;
+        }
+
+        .lanternbearer-info p {
+            color: var(--pale-text);
+            margin: 5px 0;
+        }
+
+        .sidekick-info {
+            background: var(--cool-blue);
+            border: 1px solid var(--magic-light);
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .sidekick-info h4 {
+            color: var(--magic-light);
+            margin-bottom: 8px;
+        }
+
+        .boss-info {
+            background: var(--slate-dark);
+            border: 2px solid var(--hp-red);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .boss-info h4 {
+            color: var(--hp-red);
+            margin-bottom: 8px;
+        }
+
+        .dungeon-theme {
+            border-left: 4px solid;
+            padding-left: 15px;
+            margin: 10px 0;
+        }
+
+        .dungeon-theme.tal { border-left-color: var(--deep-blue-gray); }
+        .dungeon-theme.geometri { border-left-color: var(--moss-green); }
+        .dungeon-theme.tid { border-left-color: var(--cool-blue); }
+        .dungeon-theme.monster { border-left-color: var(--warm-torch); }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <h1>🏰 Lanternbearer's Sanctuary – Åk 4</h1>
+        <div class="art-bible-info">
+            <p>✨ Implementerat enligt Art Bible: "Vuxet men för barn" - mystik, nyfikenhet, trygg äventyrskänsla</p>
+        </div>
+        <div id="content">
+            <div id="hub">
+                <h2>Välj en dungeon:</h2>
+                <button class="dungeon-button" onclick="selectDungeon('Tal & Algebra')">Tal & Algebra</button>
+                <button class="dungeon-button" onclick="selectDungeon('Geometri')">Geometri</button>
+                <button class="dungeon-button" onclick="selectDungeon('Tid')">Tid</button>
+                <button class="dungeon-button" onclick="selectDungeon('Mönster')">Mönster</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentDungeon = '';
+        let playerHP = 12;
+        let enemyHP = 3;
+        let currentQuestion = null;
+        let lastFeedback = '';
+
+        const dungeons = {
+            'Tal & Algebra': [
+                { name: 'Multiplikation', level: 'E', type: 'combat', questions: 3, enemyHP: 3, questionType: 'multiplication' },
+                { name: 'Division', level: 'C', type: 'combat', questions: 4, enemyHP: 4, questionType: 'division' },
+                { name: 'Boss - Blandade räknesätt', level: 'Boss', type: 'boss-combat', questions: 6, enemyHP: 6, questionType: 'equation' }
+            ],
+            'Geometri': [
+                { name: 'Omkrets', level: 'E', type: 'combat', questions: 3, enemyHP: 3, questionType: 'perimeter' }
+            ],
+            'Tid': [
+                { name: 'Klockan', level: 'E', type: 'combat', questions: 3, enemyHP: 3, questionType: 'clock' },
+                { name: 'Tidsintervall', level: 'C', type: 'combat', questions: 4, enemyHP: 4, questionType: 'interval' }
+            ],
+            'Mönster': [
+                { name: 'Talföljder', level: 'A', type: 'combat', questions: 5, enemyHP: 5, questionType: 'sequence' }
+            ]
+        };
+
+        function selectDungeon(dungeonName) {
+            currentDungeon = dungeonName;
+            const rooms = dungeons[dungeonName];
+            
+            let html = `<h2>${dungeonName}</h2>`;
+            
+            // Add boss information
+            const bossInfo = getBossInfo(dungeonName);
+            if (bossInfo) {
+                html += `<div class="boss-info">
+                    <h4>👹 ${bossInfo.name}</h4>
+                    <p>${bossInfo.description}</p>
+                </div>`;
+            }
+            
+            html += '<h3>Välj ett rum:</h3>';
+            
+            rooms.forEach(room => {
+                html += `<button class="room-button" onclick="startRoom('${room.name}', ${room.enemyHP}, ${room.questions}, '${room.questionType}')">${room.level} – ${room.name} (${room.type})</button><br>`;
+            });
+            
+            html += '<br><button class="dungeon-button" onclick="showHub()">Tillbaka till Hub</button>';
+            
+            document.getElementById('content').innerHTML = html;
+        }
+
+        function getBossInfo(dungeonName) {
+            const bosses = {
+                'Tal & Algebra': {
+                    name: 'Times Troll',
+                    description: 'Massiv stenfigur med urtavla i bröstet, sprickor som lyser varmt'
+                },
+                'Tid': {
+                    name: 'Hourglass Wraith',
+                    description: 'Svävande skepnad med timglas inbäddat'
+                },
+                'Geometri': {
+                    name: 'Shape Mimic',
+                    description: 'Skiftar silhuett mellan triangel/rektangel/cirkel'
+                },
+                'Mönster': {
+                    name: 'Pattern Phantom',
+                    description: 'Ethereal varelse som manifesterar sig genom matematiska mönster'
+                }
+            };
+            
+            return bosses[dungeonName] || null;
+        }
+
+        function startRoom(roomName, enemyHP, questions, questionType) {
+            this.enemyHP = enemyHP;
+            this.questionsLeft = questions;
+            this.questionType = questionType;
+            playerHP = 12;
+            lastFeedback = ''; // Rensa feedback när man startar nytt rum
+            
+            showBattle(roomName);
+        }
+
+        function showBattle(roomName) {
+            let html = `<h2>${currentDungeon} – ${roomName}</h2>`;
+            html += `<div class="hp-bar">Fiende HP: ${enemyHP}</div>`;
+            html += `<div class="hp-bar">Din HP: ${playerHP}/12</div>`;
+            
+            // Visa feedback från föregående svar
+            if (lastFeedback) {
+                html += `<div class="feedback ${lastFeedback.type}">${lastFeedback.message}</div>`;
+            }
+            
+            // Generera en fråga baserat på rummets typ
+            const question = generateQuestion(this.questionType);
+            currentQuestion = question;
+            
+            html += `<div class="question">${question.prompt}</div>`;
+            
+            if (question.options) {
+                question.options.forEach(option => {
+                    html += `<div class="option" onclick="answerQuestion('${option}')">${option}</div>`;
+                });
+            } else {
+                html += `<input type="text" id="answerInput" placeholder="Ditt svar">`;
+                html += `<button onclick="answerInput()">OK</button>`;
+            }
+            
+            html += '<br><button class="dungeon-button" onclick="showHub()">Tillbaka till Hub</button>';
+            
+            document.getElementById('content').innerHTML = html;
+        }
+
+        function generateQuestion(type) {
+            const questions = {
+                multiplication: [
+                    { prompt: "Vad är 3 × 4?", answer: "12", options: ["10", "12", "14", "16"] },
+                    { prompt: "Vad är 5 × 6?", answer: "30", options: ["25", "30", "35", "40"] },
+                    { prompt: "Vad är 2 × 8?", answer: "16", options: ["14", "16", "18", "20"] },
+                    { prompt: "Vad är 7 × 3?", answer: "21", options: ["18", "21", "24", "27"] }
+                ],
+                division: [
+                    { prompt: "Vad är 24 ÷ 4?", answer: "6", options: ["5", "6", "7", "8"] },
+                    { prompt: "Vad är 35 ÷ 5?", answer: "7", options: ["6", "7", "8", "9"] },
+                    { prompt: "Vad är 18 ÷ 3?", answer: "6", options: ["5", "6", "7", "8"] },
+                    { prompt: "Vad är 42 ÷ 6?", answer: "7", options: ["6", "7", "8", "9"] }
+                ],
+                equation: [
+                    { prompt: "□ + 3 = 8 → □ = ?", answer: "5", options: ["4", "5", "6", "7"] },
+                    { prompt: "□ + 5 = 12 → □ = ?", answer: "7", options: ["6", "7", "8", "9"] },
+                    { prompt: "□ + 4 = 15 → □ = ?", answer: "11", options: ["10", "11", "12", "13"] },
+                    { prompt: "□ + 6 = 20 → □ = ?", answer: "14", options: ["13", "14", "15", "16"] }
+                ],
+                perimeter: [
+                    { prompt: "Omkrets för rektangel 3×4?", answer: "14", options: ["12", "14", "16", "18"] },
+                    { prompt: "Omkrets för rektangel 5×2?", answer: "14", options: ["10", "12", "14", "16"] },
+                    { prompt: "Omkrets för rektangel 6×3?", answer: "18", options: ["16", "18", "20", "22"] },
+                    { prompt: "Omkrets för rektangel 4×7?", answer: "22", options: ["20", "22", "24", "26"] }
+                ],
+                clock: [
+                    { prompt: "Visa tiden: 09:15", answer: "09:15", options: ["09:10", "09:15", "09:20", "09:25"] },
+                    { prompt: "Visa tiden: 14:30", answer: "14:30", options: ["14:25", "14:30", "14:35", "14:40"] },
+                    { prompt: "Visa tiden: 11:45", answer: "11:45", options: ["11:40", "11:45", "11:50", "11:55"] },
+                    { prompt: "Visa tiden: 16:20", answer: "16:20", options: ["16:15", "16:20", "16:25", "16:30"] }
+                ],
+                interval: [
+                    { prompt: "Hur långt är det mellan 09:00 och 10:30? (minuter)", answer: "90", options: ["80", "90", "100", "110"] },
+                    { prompt: "Hur långt är det mellan 14:15 och 15:45? (minuter)", answer: "90", options: ["80", "90", "100", "110"] },
+                    { prompt: "Hur långt är det mellan 08:30 och 10:00? (minuter)", answer: "90", options: ["80", "90", "100", "110"] },
+                    { prompt: "Hur långt är det mellan 13:45 och 15:15? (minuter)", answer: "90", options: ["80", "90", "100", "110"] }
+                ],
+                sequence: [
+                    { prompt: "Nästa tal i serien: 2, 4, 6, 8, ?", answer: "10", options: ["9", "10", "11", "12"] },
+                    { prompt: "Nästa tal i serien: 3, 6, 9, 12, ?", answer: "15", options: ["14", "15", "16", "17"] },
+                    { prompt: "Nästa tal i serien: 5, 10, 15, 20, ?", answer: "25", options: ["24", "25", "26", "27"] },
+                    { prompt: "Nästa tal i serien: 1, 3, 5, 7, ?", answer: "9", options: ["8", "9", "10", "11"] }
+                ]
+            };
+            
+            const typeQuestions = questions[type] || questions.multiplication;
+            return typeQuestions[Math.floor(Math.random() * typeQuestions.length)];
+        }
+
+        function answerQuestion(answer) {
+            if (answer === currentQuestion.answer) {
+                enemyHP--;
+                lastFeedback = {
+                    type: 'correct',
+                    message: 'Rätt svar! Fienden tar 1 skada.'
+                };
+                if (enemyHP <= 0) {
+                    alert('Du vann! +6 XP');
+                    lastFeedback = '';
+                    showHub();
+                    return;
+                }
+            } else {
+                playerHP--;
+                lastFeedback = {
+                    type: 'incorrect',
+                    message: `Fel svar! Rätt svar var: ${currentQuestion.answer}. Du tar 1 skada.`
+                };
+                if (playerHP <= 0) {
+                    alert('Du förlorade! Teleporterar till Hub...');
+                    lastFeedback = '';
+                    showHub();
+                    return;
+                }
+            }
+            
+            questionsLeft--;
+            if (questionsLeft <= 0) {
+                alert('Du vann! +6 XP');
+                lastFeedback = '';
+                showHub();
+                return;
+            }
+            
+            showBattle(document.querySelector('h2').textContent.split(' – ')[1]);
+        }
+
+        function answerInput() {
+            const input = document.getElementById('answerInput');
+            answerQuestion(input.value);
+        }
+
+        function showHub() {
+            document.getElementById('content').innerHTML = `
+                <div class="lanternbearer-info">
+                    <h3>🏮 Lanternbearer</h3>
+                    <p><strong>Signatur:</strong> Timglasformade "lensing eyes" (vertikala elips-linser med svag glöd)</p>
+                    <p><strong>Kläder:</strong> Medel-låg hatt/huva, knälång rock/kappa, robust boots</p>
+                    <p><strong>Lanterna:</strong> Sidekick bor i lanternan med subtila matte-symboler (π, Σ, ∠)</p>
+                </div>
+                
+                <div class="sidekick-info">
+                    <h4>✨ Sidekick (i lanternan)</h4>
+                    <p>Geometrisk "wisp" - liten flytande tetra/polygonskärva, vinklad, inte gullig</p>
+                    <p>Små glödande slitsar som ögon, kall cyan/blågrönt med diskreta partiklar</p>
+                </div>
+
+                <h2>Välj en dungeon:</h2>
+                <div class="dungeon-theme tal">
+                    <button class="dungeon-button" onclick="selectDungeon('Tal & Algebra')">🔢 Tal & Algebra</button>
+                    <p><em>Stenhallar med diskreta sifferinlägg; katapult, brosegment</em></p>
+                </div>
+                <div class="dungeon-theme geometri">
+                    <button class="dungeon-button" onclick="selectDungeon('Geometri')">📐 Geometri</button>
+                    <p><em>Speglar, måttstolpar, polerade plattor med kantlinjer</em></p>
+                </div>
+                <div class="dungeon-theme tid">
+                    <button class="dungeon-button" onclick="selectDungeon('Tid')">⏰ Tid</button>
+                    <p><em>Urtavlor, kugghjul, timglas-pelare, brons/obsidian</em></p>
+                </div>
+                <div class="dungeon-theme monster">
+                    <button class="dungeon-button" onclick="selectDungeon('Mönster')">🔮 Mönster</button>
+                    <p><em>Symbolgolv, mönsterbroar, variabelportar med symbolpaneler</em></p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

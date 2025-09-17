@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Placeholder Asset Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #2C3E50;
+            color: #DAE4EA;
+        }
+        .generator {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        canvas {
+            border: 1px solid #E8C170;
+            margin: 10px;
+            background: #22313A;
+        }
+        button {
+            background: #3F5B6E;
+            color: #DAE4EA;
+            border: 1px solid #E8C170;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        button:hover {
+            background: #E8C170;
+            color: #2C3E50;
+        }
+        .asset-group {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #3F5B6E;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="generator">
+        <h1>🎨 Art Bible Placeholder Generator</h1>
+        <p>Click the buttons below to generate placeholder assets according to Art Bible specifications.</p>
+        
+        <div class="asset-group">
+            <h3>Character Sprites (48×48 px)</h3>
+            <button onclick="generateLanternbearerWalk()">Lanternbearer Walk (24 frames)</button>
+            <button onclick="generateLanternbearerIdle()">Lanternbearer Idle (3 frames)</button>
+            <button onclick="generateLanternbearerCast()">Lanternbearer Cast (6 frames)</button>
+            <canvas id="lanternbearerCanvas" width="1152" height="48" style="display: none;"></canvas>
+        </div>
+
+        <div class="asset-group">
+            <h3>Sidekick Sprites (32×32 px)</h3>
+            <button onclick="generateSidekick()">Sidekick (13 frames)</button>
+            <canvas id="sidekickCanvas" width="416" height="32" style="display: none;"></canvas>
+        </div>
+
+        <div class="asset-group">
+            <h3>Boss Sprites (96×96 px)</h3>
+            <button onclick="generateTimesTroll()">Times Troll (12 frames)</button>
+            <button onclick="generateHourglassWraith()">Hourglass Wraith (12 frames)</button>
+            <button onclick="generateShapeMimic()">Shape Mimic (12 frames)</button>
+            <canvas id="bossCanvas" width="1152" height="96" style="display: none;"></canvas>
+        </div>
+
+        <div class="asset-group">
+            <h3>Tilesets (32×32 px)</h3>
+            <button onclick="generateTalTileset()">Tal Tileset (8 tiles)</button>
+            <button onclick="generateTidTileset()">Tid Tileset (8 tiles)</button>
+            <button onclick="generateGeometriTileset()">Geometri Tileset (8 tiles)</button>
+            <button onclick="generateAlgebraTileset()">Algebra Tileset (8 tiles)</button>
+            <button onclick="generateDataTileset()">Data Tileset (8 tiles)</button>
+            <canvas id="tilesetCanvas" width="256" height="32" style="display: none;"></canvas>
+        </div>
+
+        <div class="asset-group">
+            <h3>UI Elements</h3>
+            <button onclick="generateUIAtlas()">UI Atlas</button>
+            <canvas id="uiCanvas" width="600" height="312" style="display: none;"></canvas>
+        </div>
+
+        <div class="asset-group">
+            <h3>Download All</h3>
+            <button onclick="downloadAll()">Download All Placeholders</button>
+        </div>
+    </div>
+
+    <script>
+        // Art Bible Color Palette
+        const COLORS = {
+            deepBlueGray: '#2C3E50',
+            coolBlue: '#3F5B6E',
+            mossGreen: '#7DAF66',
+            warmTorch: '#E8C170',
+            magicLight: '#C6E4F2',
+            slateDark: '#22313A',
+            paleText: '#DAE4EA',
+            hpRed: '#E76F51',
+            xpTeal: '#2A9D8F'
+        };
+
+        function drawFrame(ctx, x, y, width, height, color, text, frameNum) {
+            // Background
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, width, height);
+            
+            // Border
+            ctx.strokeStyle = '#FFFFFF';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(x, y, width, height);
+            
+            // Frame number
+            if (frameNum) {
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = `${Math.min(width, height) / 6}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(frameNum.toString(), x + width/2, y + height/2);
+            }
+            
+            // Label
+            if (text) {
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = `${Math.min(width, height) / 8}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText(text, x + width/2, y + height + 2);
+            }
+        }
+
+        function generateLanternbearerWalk() {
+            const canvas = document.getElementById('lanternbearerCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 4 directions × 6 frames = 24 frames
+            for (let i = 0; i < 24; i++) {
+                const x = i * 48;
+                const color = i < 6 ? COLORS.deepBlueGray : 
+                             i < 12 ? COLORS.coolBlue : 
+                             i < 18 ? COLORS.mossGreen : COLORS.warmTorch;
+                drawFrame(ctx, x, 0, 48, 48, color, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'lanternbearer_walk.png');
+        }
+
+        function generateLanternbearerIdle() {
+            const canvas = document.getElementById('lanternbearerCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 144; // 3 × 48
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 3; i++) {
+                const x = i * 48;
+                drawFrame(ctx, x, 0, 48, 48, COLORS.coolBlue, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'lanternbearer_idle.png');
+        }
+
+        function generateLanternbearerCast() {
+            const canvas = document.getElementById('lanternbearerCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = 288; // 6 × 48
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 6; i++) {
+                const x = i * 48;
+                drawFrame(ctx, x, 0, 48, 48, COLORS.warmTorch, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'lanternbearer_cast.png');
+        }
+
+        function generateSidekick() {
+            const canvas = document.getElementById('sidekickCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 13; i++) {
+                const x = i * 32;
+                drawFrame(ctx, x, 0, 32, 32, COLORS.magicLight, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'sidekick_idle.png');
+        }
+
+        function generateTimesTroll() {
+            const canvas = document.getElementById('bossCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 12; i++) {
+                const x = i * 96;
+                drawFrame(ctx, x, 0, 96, 96, COLORS.hpRed, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'times_troll.png');
+        }
+
+        function generateHourglassWraith() {
+            const canvas = document.getElementById('bossCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 12; i++) {
+                const x = i * 96;
+                drawFrame(ctx, x, 0, 96, 96, COLORS.xpTeal, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'hourglass_wraith.png');
+        }
+
+        function generateShapeMimic() {
+            const canvas = document.getElementById('bossCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 12; i++) {
+                const x = i * 96;
+                drawFrame(ctx, x, 0, 96, 96, COLORS.mossGreen, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'shape_mimic.png');
+        }
+
+        function generateTalTileset() {
+            const canvas = document.getElementById('tilesetCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 8; i++) {
+                const x = i * 32;
+                drawFrame(ctx, x, 0, 32, 32, COLORS.slateDark, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'tal_tileset.png');
+        }
+
+        function generateTidTileset() {
+            const canvas = document.getElementById('tilesetCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 8; i++) {
+                const x = i * 32;
+                drawFrame(ctx, x, 0, 32, 32, COLORS.coolBlue, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'tid_tileset.png');
+        }
+
+        function generateGeometriTileset() {
+            const canvas = document.getElementById('tilesetCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 8; i++) {
+                const x = i * 32;
+                drawFrame(ctx, x, 0, 32, 32, COLORS.magicLight, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'geometri_tileset.png');
+        }
+
+        function generateAlgebraTileset() {
+            const canvas = document.getElementById('tilesetCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 8; i++) {
+                const x = i * 32;
+                drawFrame(ctx, x, 0, 32, 32, COLORS.warmTorch, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'algebra_tileset.png');
+        }
+
+        function generateDataTileset() {
+            const canvas = document.getElementById('tilesetCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            for (let i = 0; i < 8; i++) {
+                const x = i * 32;
+                drawFrame(ctx, x, 0, 32, 32, COLORS.paleText, null, i + 1);
+            }
+            
+            downloadCanvas(canvas, 'data_tileset.png');
+        }
+
+        function generateUIAtlas() {
+            const canvas = document.getElementById('uiCanvas');
+            const ctx = canvas.getContext('2d');
+            canvas.style.display = 'block';
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // HP bars
+            drawFrame(ctx, 0, 0, 200, 20, COLORS.slateDark, 'HP Bar BG', null);
+            drawFrame(ctx, 200, 0, 200, 20, COLORS.hpRed, 'HP Bar Fill', null);
+            
+            // XP bars
+            drawFrame(ctx, 0, 20, 200, 20, COLORS.slateDark, 'XP Bar BG', null);
+            drawFrame(ctx, 200, 20, 200, 20, COLORS.xpTeal, 'XP Bar Fill', null);
+            
+            // Panels
+            drawFrame(ctx, 0, 40, 300, 200, COLORS.slateDark, 'Panel BG', null);
+            drawFrame(ctx, 300, 40, 300, 200, COLORS.coolBlue, 'Panel Border', null);
+            
+            // Icons
+            drawFrame(ctx, 0, 240, 32, 32, COLORS.magicLight, 'Hint', null);
+            drawFrame(ctx, 32, 240, 32, 32, COLORS.warmTorch, 'Clock', null);
+            drawFrame(ctx, 64, 240, 32, 32, COLORS.mossGreen, 'Shape', null);
+            drawFrame(ctx, 96, 240, 32, 32, COLORS.xpTeal, 'Data', null);
+            
+            // Buttons
+            drawFrame(ctx, 0, 272, 120, 40, COLORS.coolBlue, 'Button BG', null);
+            drawFrame(ctx, 120, 272, 120, 40, COLORS.warmTorch, 'Button Hover', null);
+            drawFrame(ctx, 240, 272, 120, 40, COLORS.mossGreen, 'Button Pressed', null);
+            
+            downloadCanvas(canvas, 'ui_atlas.png');
+        }
+
+        function downloadCanvas(canvas, filename) {
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function downloadAll() {
+            // Generate all assets
+            generateLanternbearerWalk();
+            setTimeout(() => generateLanternbearerIdle(), 100);
+            setTimeout(() => generateLanternbearerCast(), 200);
+            setTimeout(() => generateSidekick(), 300);
+            setTimeout(() => generateTimesTroll(), 400);
+            setTimeout(() => generateHourglassWraith(), 500);
+            setTimeout(() => generateShapeMimic(), 600);
+            setTimeout(() => generateTalTileset(), 700);
+            setTimeout(() => generateTidTileset(), 800);
+            setTimeout(() => generateGeometriTileset(), 900);
+            setTimeout(() => generateAlgebraTileset(), 1000);
+            setTimeout(() => generateDataTileset(), 1100);
+            setTimeout(() => generateUIAtlas(), 1200);
+        }
+    </script>
+</body>
+</html>
