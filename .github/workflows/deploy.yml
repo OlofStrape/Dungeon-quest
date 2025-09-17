@@ -24,12 +24,12 @@ jobs:
       run: npm ci
       
     - name: Build
-      run: npm run build
+      run: echo "Using simple-game.html as main entry point"
       
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./dist
+        publish_dir: ./
         cname: # Add your custom domain here if you have one

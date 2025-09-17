@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
+    "build:simple": "tsc src/main-simple.ts --outDir dist --target es2020 --module es2020 --moduleResolution node && vite build --config vite.config.simple.js",
     "preview": "vite preview",
     "build:gh-pages": "tsc && vite build --base=/dungeon-of-numbers-edu/",
     "deploy": "npm run build:gh-pages && gh-pages -d dist"

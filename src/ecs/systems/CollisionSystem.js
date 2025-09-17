@@ -1,0 +1,141 @@
+/**
+ * CollisionSystem - Handles tile collision and entity interactions
+ *
+ * TODO/Next steps:
+ * - Add tilemap collision detection
+ * - Implement trigger zones
+ * - Add collision response for different entity types
+ */
+export class CollisionSystem {
+    constructor(scene) {
+        this.tilemap = null;
+        this.wallsLayer = null;
+        this.scene = scene;
+    }
+    setTilemap(tilemap, wallsLayer) {
+        this.tilemap = tilemap;
+        this.wallsLayer = wallsLayer;
+    }
+    update(entities) {
+        entities.forEach(entity => {
+            if (this.hasCollisionComponents(entity)) {
+                this.checkCollisions(entity, entities);
+            }
+        });
+    }
+    hasCollisionComponents(entity) {
+        return entity.components.has('position') &&
+            entity.components.has('collider');
+    }
+    checkCollisions(entity, allEntities) {
+        const position = entity.components.get('position');
+        const collider = entity.components.get('collider');
+        // Check tilemap collision
+        if (this.tilemap && this.wallsLayer) {
+            const tileCollision = this.checkTileCollision(position, collider);
+            if (tileCollision.collided) {
+                this.resolveTileCollision(entity, tileCollision.direction);
+            }
+        }
+        // Check entity-to-entity collision
+        allEntities.forEach(otherEntity => {
+            if (otherEntity.id === entity.id)
+                return;
+            if (!this.hasCollisionComponents(otherEntity))
+                return;
+            const collision = this.checkEntityCollision(entity, otherEntity);
+            if (collision.collided) {
+                this.handleEntityCollision(entity, otherEntity);
+            }
+        });
+    }
+    checkTileCollision(position, collider) {
+        if (!this.tilemap || !this.wallsLayer) {
+            return { collided: false };
+        }
+        const left = position.x + (collider.offsetX || 0);
+        const right = left + collider.width;
+        const top = position.y + (collider.offsetY || 0);
+        const bottom = top + collider.height;
+        // Check corners
+        const topLeft = this.wallsLayer.getTileAtWorldXY(left, top);
+        const topRight = this.wallsLayer.getTileAtWorldXY(right, top);
+        const bottomLeft = this.wallsLayer.getTileAtWorldXY(left, bottom);
+        const bottomRight = this.wallsLayer.getTileAtWorldXY(right, bottom);
+        if (topLeft || topRight || bottomLeft || bottomRight) {
+            // Determine collision direction
+            let direction = '';
+            if (topLeft || topRight)
+                direction += 'up';
+            if (bottomLeft || bottomRight)
+                direction += 'down';
+            if (topLeft || bottomLeft)
+                direction += 'left';
+            if (topRight || bottomRight)
+                direction += 'right';
+            return { collided: true, direction };
+        }
+        return { collided: false };
+    }
+    checkEntityCollision(entity1, entity2) {
+        const pos1 = entity1.components.get('position');
+        const col1 = entity1.components.get('collider');
+        const pos2 = entity2.components.get('position');
+        const col2 = entity2.components.get('collider');
+        const left1 = pos1.x + (col1.offsetX || 0);
+        const right1 = left1 + col1.width;
+        const top1 = pos1.y + (col1.offsetY || 0);
+        const bottom1 = top1 + col1.height;
+        const left2 = pos2.x + (col2.offsetX || 0);
+        const right2 = left2 + col2.width;
+        const top2 = pos2.y + (col2.offsetY || 0);
+        const bottom2 = top2 + col2.height;
+        const collided = !(right1 < left2 || left1 > right2 || bottom1 < top2 || top1 > bottom2);
+        return { collided, entity: entity2 };
+    }
+    resolveTileCollision(entity, direction) {
+        const position = entity.components.get('position');
+        const velocity = entity.components.get('velocity');
+        if (direction.includes('up')) {
+            position.y = Math.ceil(position.y / 32) * 32;
+            if (velocity)
+                velocity.vy = 0;
+        }
+        if (direction.includes('down')) {
+            position.y = Math.floor(position.y / 32) * 32;
+            if (velocity)
+                velocity.vy = 0;
+        }
+        if (direction.includes('left')) {
+            position.x = Math.ceil(position.x / 32) * 32;
+            if (velocity)
+                velocity.vx = 0;
+        }
+        if (direction.includes('right')) {
+            position.x = Math.floor(position.x / 32) * 32;
+            if (velocity)
+                velocity.vx = 0;
+        }
+    }
+    handleEntityCollision(entity1, entity2) {
+        // Handle different collision types
+        if (entity2.components.has('interactable')) {
+            // This is handled by InteractionSystem
+            return;
+        }
+        if (entity2.components.has('trigger')) {
+            this.handleTriggerCollision(entity1, entity2);
+        }
+    }
+    handleTriggerCollision(entity, trigger) {
+        const triggerData = trigger.components.get('trigger');
+        if (!triggerData)
+            return;
+        // Emit trigger event
+        this.scene.events.emit('triggerActivated', {
+            triggerType: triggerData.triggerType,
+            targetData: triggerData.targetData,
+            entity: entity
+        });
+    }
+}

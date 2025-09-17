@@ -7,7 +7,7 @@ import { QuestionGenerator } from '../game/QuestionGenerator';
 import { GameState } from '../game/GameState';
 import { SaveSystem } from '../game/SaveSystem';
 import { Analytics } from '../game/Analytics';
-import { RoomRow } from '../data/types';
+import { RoomRow } from '../types/content';
 
 export class BattleScene extends Phaser.Scene {
   private encounterManager!: EncounterManager;

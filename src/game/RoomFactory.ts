@@ -7,7 +7,7 @@
  * - Add room state persistence
  */
 
-import { RoomRow, DungeonDataset } from '../data/types';
+import { RoomRow, DungeonDataset } from '../types/content';
 import { Entity, createEntity, addComponent, createPosition, createSprite, createCollider, createInteractable } from '../ecs/components';
 import { PuzzleManager } from './PuzzleManager';
 

@@ -1,11 +1,5 @@
 import Phaser from 'phaser';
-import { PreloadScene } from './scenes/PreloadScene';
 import { HubScene } from './scenes/HubScene';
-import { OverworldScene } from './scenes/OverworldScene';
-import { RoomScene } from './scenes/RoomScene';
-import { BattleScene } from './scenes/BattleScene';
-import { BattleUI } from './ui/BattleUI';
-// import { AssetLoader } from './game/AssetLoader';
 
 // Art Bible Color Palette
 const COLORS = {
@@ -27,7 +21,7 @@ new Phaser.Game({
   height: 768,
   backgroundColor: COLORS.DEEP_BLUE_GRAY,
   dom: { createContainer: true },
-  scene: [PreloadScene, HubScene, OverworldScene, RoomScene, BattleScene, BattleUI],
+  scene: [HubScene],
   physics: {
     default: 'arcade',
     arcade: {

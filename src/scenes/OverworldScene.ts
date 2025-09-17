@@ -15,7 +15,7 @@ import { RoomFactory } from '../game/RoomFactory';
 import { PuzzleManager } from '../game/PuzzleManager';
 import { SaveSystem } from '../game/SaveSystem';
 import { Analytics } from '../game/Analytics';
-import { RoomRow, DungeonDataset } from '../data/types';
+import { RoomRow, DungeonDataset } from '../types/content';
 import { GameState } from '../game/GameState';
 
 export class OverworldScene extends Phaser.Scene {

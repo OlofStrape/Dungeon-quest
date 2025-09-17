@@ -16,7 +16,7 @@ import { PuzzleManager } from '../game/PuzzleManager';
 import { SaveSystem } from '../game/SaveSystem';
 import { Analytics } from '../game/Analytics';
 import { QuestionGenerator } from '../game/QuestionGenerator';
-import { RoomRow } from '../data/types';
+import { RoomRow } from '../types/content';
 import { GameState } from '../game/GameState';
 
 export class RoomScene extends Phaser.Scene {
