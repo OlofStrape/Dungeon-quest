@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏰 Dungeon of Numbers EDU - Åk 4</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #2C3E50 0%, #3F5B6E 100%);
+            color: #DAE4EA;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .container {
+            max-width: 800px;
+            text-align: center;
+            background: #22313A;
+            border: 2px solid #E8C170;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #E8C170;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .subtitle {
+            color: #C6E4F2;
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-style: italic;
+        }
+        
+        .description {
+            color: #DAE4EA;
+            font-size: 1.1em;
+            line-height: 1.6;
+            margin-bottom: 30px;
+        }
+        
+        .game-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 30px 0;
+        }
+        
+        .game-button {
+            background: #3F5B6E;
+            color: #DAE4EA;
+            border: 2px solid #E8C170;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .game-button:hover {
+            background: #E8C170;
+            color: #2C3E50;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(232, 193, 112, 0.3);
+        }
+        
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .feature {
+            background: #3F5B6E;
+            border: 1px solid #C6E4F2;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .feature h3 {
+            color: #E8C170;
+            margin-bottom: 10px;
+        }
+        
+        .feature p {
+            color: #DAE4EA;
+            font-size: 0.9em;
+        }
+        
+        .art-bible-info {
+            background: #2C3E50;
+            border: 1px solid #E8C170;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            color: #C6E4F2;
+            font-style: italic;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            color: #7DAF66;
+            font-size: 0.9em;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .game-links {
+                gap: 10px;
+            }
+            
+            .game-button {
+                padding: 12px 20px;
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏰 Dungeon of Numbers EDU</h1>
+        <p class="subtitle">Zelda + Final Fantasy + Matematik för Åk 4</p>
+        
+        <p class="description">
+            Ett <strong>Zelda-liknande utforskningsspel med Final Fantasy-stridar</strong> 
+            där matematikuppgifter är dina vapen. Utforska dungeons, besegra bossar och 
+            lär dig matematik på ett roligt sätt!
+        </p>
+        
+        <div class="game-links">
+            <a href="simple-game.html" class="game-button">
+                🎮 Spela Nu (Komplett Demo)
+            </a>
+            <a href="test-system.html" class="game-button">
+                🧪 Systemtest
+            </a>
+            <a href="generate_placeholders.html" class="game-button">
+                🎨 Generera Assets
+            </a>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>🗡️ Zelda-utforskning</h3>
+                <p>Top-down rörelse, tilemaps, interaktiva rum, pussel och låsta dörrar</p>
+            </div>
+            <div class="feature">
+                <h3>⚔️ Final Fantasy-stridar</h3>
+                <p>Turbaserade encounters där matteuppgifter är dina actions</p>
+            </div>
+            <div class="feature">
+                <h3>💀 Ingen död</h3>
+                <p>Vid 0 HP teleporteras du till hub - träna mer och försök igen!</p>
+            </div>
+            <div class="feature">
+                <h3>📊 Data-driven</h3>
+                <p>Allt innehåll från ak4_gameplay_params_enriched.json</p>
+            </div>
+        </div>
+        
+        <div class="art-bible-info">
+            <h3>🎨 Art Bible: "Vuxet men för barn"</h3>
+            <p>
+                <strong>Zelda: BotW möter Studio Ghibli</strong> översatt till 16-bit pixel art.<br>
+                Muted earth tones + accent lighting. Lanternbearer med timglasformade ögon.<br>
+                Sidekick som geometrisk wisp i lanternan med subtila matte-symboler.
+            </p>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <h3>🏰 5 Dungeons</h3>
+                <p>Tal & Algebra, Geometri, Tid, Mönster, Data</p>
+            </div>
+            <div class="feature">
+                <h3>👹 4 Bossar</h3>
+                <p>Times Troll, Hourglass Wraith, Shape Mimic, Pattern Phantom</p>
+            </div>
+            <div class="feature">
+                <h3>🧩 7 Rumstyper</h3>
+                <p>Combat, Progress, Choice-logic, Drag-drop, Special, Grind, Boss</p>
+            </div>
+            <div class="feature">
+                <h3>📈 Analytics</h3>
+                <p>Telemetri för lärarvy och anpassning</p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>🎮 Implementerat enligt specifikation: Zelda + Final Fantasy + Ingen död + Data-driven + Art Bible!</p>
+            <p>📚 Utvecklat för matematikundervisning i årskurs 4</p>
+        </div>
+    </div>
+</body>
+</html>

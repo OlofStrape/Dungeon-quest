@@ -6,13 +6,16 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build:gh-pages": "tsc && vite build --base=/dungeon-of-numbers-edu/",
+    "deploy": "npm run build:gh-pages && gh-pages -d dist"
   },
   "dependencies": {
     "phaser": "^3.80.0"
   },
   "devDependencies": {
     "@types/node": "^24.5.1",
+    "gh-pages": "^6.1.1",
     "typescript": "^5.4.0",
     "vite": "^5.0.0"
   }
