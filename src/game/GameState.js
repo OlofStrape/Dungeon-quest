@@ -7,6 +7,12 @@ export class GameState {
         // enkel energi till hints
         this.sidekickEnergy = 5;
     }
+    static getInstance() {
+        if (!GameState.instance) {
+            GameState.instance = new GameState();
+        }
+        return GameState.instance;
+    }
     resetHP(newMax) {
         if (newMax)
             this.playerMaxHP = newMax;
@@ -23,6 +29,10 @@ export class GameState {
     damage(d) {
         this.playerHP = Math.max(0, this.playerHP - d);
     }
+    damagePlayer(damage) {
+        this.damage(damage);
+    }
     isDown() { return this.playerHP <= 0; }
+    isPlayerDefeated() { return this.isDown(); }
 }
-export const gameState = new GameState();
+export const gameState = GameState.getInstance();

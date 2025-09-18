@@ -98,9 +98,9 @@ export class OverworldScene extends Phaser.Scene {
     const tileset = this.tilemap.addTilesetImage('tileset', tilesetName);
 
     // Create layers
-    this.backgroundLayer = this.tilemap.createLayer('background', tileset!);
-    this.wallsLayer = this.tilemap.createLayer('walls', tileset!);
-    this.objectsLayer = this.tilemap.createLayer('objects', tileset!);
+    this.backgroundLayer = this.tilemap.createLayer('background', tileset!)!;
+    this.wallsLayer = this.tilemap.createLayer('walls', tileset!)!;
+    this.objectsLayer = this.tilemap.createLayer('objects', tileset!)!;
 
     // Set collision
     this.wallsLayer.setCollisionByProperty({ collides: true });

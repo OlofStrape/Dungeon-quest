@@ -436,7 +436,7 @@ export class RoomScene extends Phaser.Scene {
     }).setOrigin(0.5);
     
     // Add input handling
-    this.input.keyboard.on('keydown', (event: KeyboardEvent) => {
+    this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         const answer = inputText.text;
         if (answer === question.answer) {

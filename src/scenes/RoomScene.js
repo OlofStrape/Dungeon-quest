@@ -346,7 +346,7 @@ export class RoomScene extends Phaser.Scene {
             fontFamily: 'Courier New'
         }).setOrigin(0.5);
         // Add input handling
-        this.input.keyboard.on('keydown', (event) => {
+        this.input.keyboard?.on('keydown', (event) => {
             if (event.key === 'Enter') {
                 const answer = inputText.text;
                 if (answer === question.answer) {

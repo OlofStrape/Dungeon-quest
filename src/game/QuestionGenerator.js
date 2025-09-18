@@ -1,5 +1,8 @@
 import { parseJsonSafe, rollInt } from "./ParamUtils";
 export class QuestionGenerator {
+    generateQuestion(row) {
+        return QuestionGenerator.generate(row);
+    }
     static generate(row) {
         const tpl = row["Frågemall"] || "generic: svara";
         const params = parseJsonSafe(row["Param-intervall"]) ?? {};

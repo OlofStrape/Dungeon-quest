@@ -199,7 +199,7 @@ export class RoomFactory {
     // Add boss visual
     const bossVisual = createEntity(`boss_visual_${row.Rum}`);
     addComponent(bossVisual, 'position', createPosition(400, 300));
-    addComponent(bossVisual, 'sprite', createSprite('ui_atlas', 'hp_bar_fill', undefined, 2));
+    addComponent(bossVisual, 'sprite', createSprite('ui_atlas', 'hp_bar_fill', 2));
     addComponent(bossVisual, 'collider', createCollider(150, 150));
 
     entities.push(bossVisual);

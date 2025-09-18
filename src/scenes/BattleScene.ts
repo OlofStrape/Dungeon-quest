@@ -2,7 +2,7 @@
  * BattleScene - Turn-based Final Fantasy-like battles
  */
 
-import { EncounterManager } from '../game/EncounterManager';
+import { EncounterManager, EncounterResult } from '../game/EncounterManager';
 import { QuestionGenerator } from '../game/QuestionGenerator';
 import { GameState } from '../game/GameState';
 import { SaveSystem } from '../game/SaveSystem';
@@ -50,10 +50,10 @@ export class BattleScene extends Phaser.Scene {
     this.questionGenerator = new QuestionGenerator();
     
     // Initialize encounter manager
-    this.encounterManager = new EncounterManager({
-      row: this.roomRow,
-      onFinish: (result) => this.handleBattleFinish(result)
-    });
+    this.encounterManager = new EncounterManager(
+      this.roomRow,
+      (result: EncounterResult) => this.handleBattleFinish(result)
+    );
 
     // Create battle background
     this.createBattleBackground();
@@ -165,7 +165,7 @@ export class BattleScene extends Phaser.Scene {
       fontFamily: 'Courier New'
     }).setOrigin(0.5);
     
-    this.input.keyboard.on('keydown', (event: KeyboardEvent) => {
+    this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
       if (event.key === 'Enter') {
         this.submitAnswer(inputText.text);
       }
@@ -247,7 +247,7 @@ export class BattleScene extends Phaser.Scene {
       fontFamily: 'Courier New'
     }).setOrigin(0.5);
     
-    this.input.keyboard.once('keydown-SPACE', () => {
+    this.input.keyboard?.once('keydown-SPACE', () => {
       this.scene.start('OverworldScene', {
         dungeon: this.currentDungeon,
         dungeonData: []
@@ -270,7 +270,7 @@ export class BattleScene extends Phaser.Scene {
     });
   }
 
-  private handleBattleFinish(result: { won: boolean; xp: number }): void {
+  private handleBattleFinish(result: EncounterResult): void {
     if (result.won) {
       this.handleBattleWin();
     } else {

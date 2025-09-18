@@ -33,10 +33,7 @@ export class BattleScene extends Phaser.Scene {
         this.analytics = Analytics.getInstance();
         this.questionGenerator = new QuestionGenerator();
         // Initialize encounter manager
-        this.encounterManager = new EncounterManager({
-            row: this.roomRow,
-            onFinish: (result) => this.handleBattleFinish(result)
-        });
+        this.encounterManager = new EncounterManager(this.roomRow, (result) => this.handleBattleFinish(result));
         // Create battle background
         this.createBattleBackground();
         // Create battle UI
@@ -124,7 +121,7 @@ export class BattleScene extends Phaser.Scene {
             color: '#DAE4EA',
             fontFamily: 'Courier New'
         }).setOrigin(0.5);
-        this.input.keyboard.on('keydown', (event) => {
+        this.input.keyboard?.on('keydown', (event) => {
             if (event.key === 'Enter') {
                 this.submitAnswer(inputText.text);
             }
@@ -191,7 +188,7 @@ export class BattleScene extends Phaser.Scene {
             color: '#7DAF66',
             fontFamily: 'Courier New'
         }).setOrigin(0.5);
-        this.input.keyboard.once('keydown-SPACE', () => {
+        this.input.keyboard?.once('keydown-SPACE', () => {
             this.scene.start('OverworldScene', {
                 dungeon: this.currentDungeon,
                 dungeonData: []

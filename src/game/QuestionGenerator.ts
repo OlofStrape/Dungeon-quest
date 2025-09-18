@@ -8,6 +8,10 @@ export interface GeneratedQuestion {
 }
 
 export class QuestionGenerator {
+  generateQuestion(row: RoomRow): GeneratedQuestion {
+    return QuestionGenerator.generate(row);
+  }
+
   static generate(row: RoomRow): GeneratedQuestion {
     const tpl = row["Frågemall"] || "generic: svara";
     const params = parseJsonSafe<Record<string, any>>(row["Param-intervall"]) ?? {};

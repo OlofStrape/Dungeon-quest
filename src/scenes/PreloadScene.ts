@@ -2,6 +2,8 @@ import { AssetLoader } from '../game/AssetLoader';
 
 export class PreloadScene extends Phaser.Scene {
     private assetLoader!: AssetLoader;
+    private loadingBar!: Phaser.GameObjects.Rectangle;
+    private loadingText!: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: 'PreloadScene' });

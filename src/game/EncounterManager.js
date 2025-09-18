@@ -11,6 +11,24 @@ export class EncounterManager {
     nextQuestion() {
         return QuestionGenerator.generate(this.row);
     }
+    generateQuestion(row) {
+        return QuestionGenerator.generate(row);
+    }
+    submitAnswer(answer) {
+        // This would need to be implemented based on the current question
+        // For now, just call handleAnswer with a placeholder
+        this.handleAnswer(true);
+    }
+    isEnemyDefeated() {
+        return this.enemyHP <= 0;
+    }
+    getEnemyHP() {
+        return this.enemyHP;
+    }
+    update(delta) {
+        // Update logic for encounter manager
+        // This could include timers, animations, etc.
+    }
     handleAnswer(correct) {
         if (correct) {
             this.enemyHP -= this.row["Skada vid rätt"];
